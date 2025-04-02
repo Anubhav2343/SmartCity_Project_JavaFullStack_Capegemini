@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather in City</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f0f4f8;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #4CAF50;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 2em;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin: 0 15px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1em;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        .weather-search {
+            background-color: #fff;
+            padding: 30px;
+            text-align: center;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-search label {
+            font-size: 1.2em;
+            margin-right: 10px;
+        }
+
+        .weather-search input {
+            padding: 10px;
+            font-size: 1.1em;
+            width: 60%;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .weather-search button {
+            background-color: #4CAF50;
+            color: white;
+            font-size: 1.1em;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .weather-search button:hover {
+            background-color: #45a049;
+        }
+
+        .weather-info {
+            background-color: white;
+            padding: 30px;
+            margin: 20px auto;
+            max-width: 600px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .weather-info h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        .weather-info p {
+            font-size: 1.2em;
+            line-height: 1.6;
+        }
+
+        .weather-info strong {
+            color: #4CAF50;
+        }
+
+        section.error {
+            background-color: #ffcccb;
+            color: #e60000;
+            padding: 20px;
+            margin: 20px auto;
+            text-align: center;
+            border-radius: 8px;
+            max-width: 600px;
+        }
+
+        footer {
+            background-color: #4CAF50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            margin-top: 40px;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        @media (max-width: 768px) {
+            .weather-search input {
+                width: 80%;
+            }
+
+            .weather-info {
+                width: 90%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Weather Information</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/register">Register Citizen</a></li>
+                <li><a href="/citizens">View Citizens</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <section class="weather-search">
+        <form action="/weather" method="get">
+            <label for="city">Enter City:</label>
+            <input type="text" id="city" name="city" required>
+            <button type="submit">Get Weather</button>
+        </form>
+    </section>
+
+    <section class="weather-info" th:if="${weatherData}">
+        <h2>Weather for <span th:text="${city}"></span></h2>
+        <div>
+            <h3>Current Weather: </h3>
+            <p><strong>Temperature:</strong> 
+                <span th:text="${weatherData != null ? weatherData.get('main').get('temp').asText() : 'N/A'}"></span> °C
+            </p>
+            <p><strong>Weather:</strong> 
+                <!-- Accessing the first element of the weather array -->
+                <span th:text="${weatherData != null ? weatherData.get('weather').get(0).get('description').asText() : 'N/A'}"></span>
+            </p>
+            <p><strong>Humidity:</strong> 
+                <span th:text="${weatherData != null ? weatherData.get('main').get('humidity').asText() : 'N/A'}"></span> %
+            </p>
+            <p><strong>Wind Speed:</strong> 
+                <span th:text="${weatherData != null ? weatherData.get('wind').get('speed').asText() : 'N/A'}"></span> m/s
+            </p>
+        </div>
+    </section>
+
+    <section th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+    </section>
+
+    <!-- Footer Section -->
+    <footer>
+        <p>&copy; 2025 Smart City. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

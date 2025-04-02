@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart City Services</title>
+    <link rel="stylesheet" href="/styles1.css">
+</head>
+<body>
+
+    <header>
+        <h1>Smart City - Services</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/register">Register Citizen</a></li>
+                <li><a href="/citizens">Citizens List</a></li>
+                <li><a href="/infrastructure">Infrastructure Details</a></li>
+                <li><a href="/weather">Check Weather of City</a></li>
+                <li><a href="/services">Services</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="services-list">
+        <div class="container">
+            <h2>Smart City Services</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Service</th>
+                        <th>Description</th>
+                        <th>Advantages</th>
+                        <th>Opt-in</th>
+                        <th>Citizens Opted</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="service, stat : ${services}">
+                        <td th:text="${service.name}"></td>
+                        <td th:text="${service.description}"></td>
+                        <td th:text="${service.advantages}"></td>
+                        <td>
+                            <!-- Opt-in Form -->
+                            <form action="/opt-in-service" method="post">
+                                <input type="text" name="citizenName" placeholder="Your Name" required>
+                                <input type="hidden" name="serviceId" th:value="${stat.index}">
+                                <button type="submit">Opt In</button>
+                            </form>
+                        </td>
+                        <td>
+                            <ul>
+                                <li th:each="citizen : ${service.citizens}" th:text="${citizen.name}"></li>
+                            </ul>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2025 Smart City. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,10 @@
+<form action="/opt-in-service" method="post">
+    <!-- Citizen's Name Input -->
+    <input type="text" name="citizenName" placeholder="Your Name" required>
+
+    <!-- Hidden Input for Service ID -->
+    <input type="hidden" name="serviceId" th:value="${service.id}">
+
+    <!-- Submit Button -->
+    <button type="submit">Opt In</button>
+</form>
